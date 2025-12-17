@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+      body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background: #000;
+        font-family: 'Segoe UI', sans-serif;
+        overflow: hidden;
+      }
+
+      canvas {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        z-index: 0;
+      }
+
+      .container {
+        position: relative;
+        z-index: 1;
+        max-width: 500px;
+        margin: 160px auto;
+        padding: 50px;
+        background: rgba(30, 25, 40, 0.3);
+        border-radius: 20px;
+        backdrop-filter: blur(20px);
+        box-shadow: 0 8px 30px rgba(90, 60, 120, 0.5);
+        text-align: center;
+        color: #eee;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        color: #b48cc3;
+        margin-bottom: 30px;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
+
+      input[type="text"], input[type="password"] {
+        padding: 14px;
+        border: none;
+        border-radius: 10px;
+        background: rgba(255,255,255,0.08);
+        color: #eee;
+        font-size: 1rem;
+        outline: none;
+      }
+
+      input[type="text"]::placeholder, input[type="password"]::placeholder {
+        color: #bbb;
+      }
+
+      button {
+        padding: 14px;
+        border: none;
+        border-radius: 14px;
+        background: linear-gradient(135deg, #6b4ca0, #b46f8e);
+        color: #eee;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: background 0.3s ease;
+      }
+
+      button:hover {
+        background: linear-gradient(135deg, #8464bc, #c88ca3);
+      }
+
+      a {
+        margin-top: 20px;
+        color: #bbb;
+        text-decoration: none;
+      }
+
+      a:hover {
+        color: #eee;
+      }
+    </style>
+</head>
+<body>
+
+<canvas id="particle-canvas"></canvas>
+
+<div class="container">
+    <h1>🔒 Login</h1>
+    <form action="/process_login" method="post">
+        <input type="text" name="username" placeholder="Username" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button type="submit">Login</button>
+    </form>
+    <a href="/">← Back to Home</a>
+</div>
+
+<script>
+  // Particle animation
+  const canvas = document.getElementById('particle-canvas');
+  const ctx = canvas.getContext('2d');
+  let w, h;
+  function resize() {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  class Particle {
+    constructor() { this.reset(); }
+    reset() {
+      this.x = Math.random() * w;
+      this.y = Math.random() * h;
+      this.vx = (Math.random() - 0.5) * 0.3;
+      this.vy = (Math.random() - 0.5) * 0.3;
+      this.radius = 1.5 + Math.random() * 3;
+      this.alpha = 0.2 + Math.random() * 0.3;
+      const colors = [
+        `rgba(145, 114, 185, ALPHA)`,
+        `rgba(180, 111, 130, ALPHA)`,
+        `rgba(165, 98, 140, ALPHA)`,
+        `rgba(120, 132, 180, ALPHA)`,
+      ];
+      this.color = colors[Math.floor(Math.random() * colors.length)].replace('ALPHA', this.alpha.toFixed(2));
+    }
+    update() {
+      this.x += this.vx;
+      this.y += this.vy;
+      if (this.x < 0 || this.x > w) this.vx *= -1;
+      if (this.y < 0 || this.y > h) this.vy *= -1;
+    }
+    draw() {
+      ctx.beginPath();
+      ctx.fillStyle = this.color;
+      ctx.shadowColor = this.color;
+      ctx.shadowBlur = 8;
+      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    }
+  }
+
+  const particles = [];
+  const particleCount = 90;
+  for (let i = 0; i < particleCount; i++) particles.push(new Particle());
+
+  function animate() {
+    ctx.clearRect(0, 0, w, h);
+    particles.forEach(p => {
+      p.update();
+      p.draw();
+    });
+    requestAnimationFrame(animate);
+  }
+  animate();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Results for {{ query }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+      /* your existing styles... (keep them unchanged) */
+
+ .movies {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 22px;
+}
+
+.card {
+  background: rgba(70, 55, 90, 0.45);
+  border-radius: 16px;
+  padding: 20px;
+  width: 300px;
+  text-align: left;
+  color: #eee;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card img {
+  width: 100%;
+  height: 450px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+
+.card h3 {
+  font-size: 1.3rem;
+  color: #c2a0df;
+  margin-bottom: 8px;
+}
+
+.card p {
+  margin: 4px 0;
+  font-size: 0.95rem;
+}
+
+.btn {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 10px 18px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #6b4ca0, #b46f8e);
+  color: #ddd;
+  text-decoration: none;
+  font-weight: 600;
+  text-align: center;
+}
+
+.btn:hover {
+  background: linear-gradient(135deg, #8464bc, #c88ca3);
+}
+
+.no-results {
+  width: 100%;
+  text-align: center;
+  padding: 60px 0;
+  color: #c2a0df;
+}
+
+.search-again-btn {
+  display: inline-block;
+  margin-top: 35px;
+  padding: 12px 22px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #6b4ca0, #b46f8e);
+  color: #ddd;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.search-again-btn:hover {
+  background: linear-gradient(135deg, #8464bc, #c88ca3);
+}
+
+    </style>
+</head>
+<body>
+
+<canvas id="particle-canvas"></canvas>
+
+<div class="container">
+  <h2>Results for "{{ query }}"</h2>
+
+  <div class="movies">
+    {% if recommendations %}
+      {% for movie in recommendations %}
+        <div class="card">
+          <img 
+            src="{{ movie.poster if movie.poster else 'https://dummyimage.com/300x450/000/fff&text=No+Poster' }}" 
+            alt="Poster"
+            onerror="this.onerror=null;this.src='https://dummyimage.com/300x450/000/fff&text=No+Poster';"
+          >
+          <h3>{{ movie.title }}</h3>
+          <p><strong>Genre:</strong> {{ movie.genres }}</p>
+          <p><strong>Language:</strong> {{ movie.language }}</p>
+          <p><strong>Year:</strong> {{ movie.year }}</p>
+          <p><strong>Rating:</strong> {{ movie.rating }}</p>
+          <p>{{ movie.plot }}</p>
+          {% if movie.trailer %}
+            <a href="{{ movie.trailer }}" target="_blank" class="btn">Watch Trailer</a>
+          {% endif %}
+        </div>
+      {% endfor %}
+    {% else %}
+      <div class="no-results">
+        <h3>No results found for your query.</h3>
+        <p>Try a different search related to movie genres, actors, language, or moods.</p>
+      </div>
+    {% endif %}
+  </div>
+
+  <div style="text-align: center; margin-top: 40px;">
+    <a href="/home" class="search-again-btn">🔍 Search Again</a>
+  </div>
+</div>
+
+
+<!-- your existing canvas particle animation script below (keep unchanged) -->
+<script>
+  const canvas = document.getElementById('particle-canvas');
+  const ctx = canvas.getContext('2d');
+  let w, h;
+  function resize() {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  class Particle {
+    constructor() { this.reset(); }
+    reset() {
+      this.x = Math.random() * w;
+      this.y = Math.random() * h;
+      this.vx = (Math.random() - 0.5) * 0.3;
+      this.vy = (Math.random() - 0.5) * 0.3;
+      this.radius = 1.5 + Math.random() * 3;
+      this.alpha = 0.2 + Math.random() * 0.3;
+      const colors = [
+        `rgba(145, 114, 185, ALPHA)`,
+        `rgba(180, 111, 130, ALPHA)`,
+        `rgba(165, 98, 140, ALPHA)`,
+        `rgba(120, 132, 180, ALPHA)`,
+      ];
+      this.color = colors[Math.floor(Math.random() * colors.length)].replace('ALPHA', this.alpha.toFixed(2));
+    }
+    update() {
+      this.x += this.vx;
+      this.y += this.vy;
+      if (this.x < 0 || this.x > w) this.vx *= -1;
+      if (this.y < 0 || this.y > h) this.vy *= -1;
+    }
+    draw() {
+      ctx.beginPath();
+      ctx.fillStyle = this.color;
+      ctx.shadowColor = this.color;
+      ctx.shadowBlur = 8;
+      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    }
+  }
+
+  const particles = [];
+  const particleCount = 90;
+  for (let i = 0; i < particleCount; i++) particles.push(new Particle());
+
+  function animate() {
+    ctx.clearRect(0, 0, w, h);
+    particles.forEach(p => {
+      p.update();
+      p.draw();
+    });
+    requestAnimationFrame(animate);
+  }
+  animate();
+</script>
+
+</body>
+</html>

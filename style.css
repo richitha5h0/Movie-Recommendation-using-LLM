@@ -1,0 +1,164 @@
+body {
+  background-color: #000;
+  font-family: 'Segoe UI', sans-serif;
+  color: #ddd;
+  margin: 0;
+  padding: 0;
+}
+
+/* Navigation bar */
+.navbar {
+  background: rgba(30, 25, 40, 0.6);
+  backdrop-filter: blur(15px);
+  border-bottom: 1.5px solid rgba(110, 85, 140, 0.4);
+  box-shadow: 0 8px 20px rgba(90, 60, 120, 0.4);
+}
+
+.navbar-brand, .navbar-nav .nav-link {
+  color: #ddd !important;
+}
+
+.navbar-brand:hover, .navbar-nav .nav-link:hover {
+  color: #b46f8e !important;
+}
+
+/* Page headings */
+h1, h2, h3, h4 {
+  color: #9072b9;
+}
+
+/* Movie card container */
+.card {
+  background: rgba(30, 25, 40, 0.35);
+  border: 1.5px solid rgba(110, 85, 140, 0.3);
+  border-radius: 24px;
+  box-shadow: 0 8px 20px rgba(90, 60, 120, 0.25);
+  backdrop-filter: blur(12px);
+  overflow: hidden;
+  color: #ddd;
+}
+
+.card-title {
+  color: #caa2d6;
+}
+
+.card-text {
+  color: #ccc;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #6b4ca0, #b46f8e);
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  padding: 10px 20px;
+  transition: 0.3s ease;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #8464bc, #c88ca3);
+  transform: scale(1.03);
+}
+
+/* Dropdowns */
+.form-select, .form-control {
+  background: rgba(70, 55, 90, 0.4);
+  color: #ddd;
+  border: 1px solid rgba(110, 85, 140, 0.4);
+  border-radius: 16px;
+}
+
+.form-select:focus, .form-control:focus {
+  background: rgba(90, 70, 130, 0.55);
+  color: #ddd;
+  border: 1px solid rgba(150, 115, 190, 0.6);
+  box-shadow: 0 0 10px rgba(120, 95, 150, 0.5);
+}
+
+/* Watch Trailer button inside cards */
+.watch-btn {
+  background: linear-gradient(135deg, #6b4ca0, #b46f8e);
+  border: none;
+  border-radius: 12px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  transition: 0.3s ease;
+}
+
+.watch-btn:hover {
+  background: linear-gradient(135deg, #8464bc, #c88ca3);
+  transform: scale(1.05);
+}
+
+/* Dark pastel particle background canvas if any */
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Text input for search */
+.search-input {
+  background: rgba(70, 55, 90, 0.35);
+  color: #ddd;
+  border: 1px solid rgba(110, 85, 140, 0.35);
+  border-radius: 16px;
+  padding: 12px;
+}
+
+.search-input::placeholder {
+  color: #aaa;
+}
+
+.search-input:focus {
+  background: rgba(90, 70, 130, 0.5);
+  border: 1px solid rgba(150, 115, 190, 0.5);
+  box-shadow: 0 0 8px rgba(140, 115, 170, 0.4);
+}
+
+/* Footer if any */
+footer {
+  color: #aaa;
+  font-size: 14px;
+  padding: 20px;
+  text-align: center;
+}
+
+/* Pagination buttons */
+.pagination .page-link {
+  background: rgba(70, 55, 90, 0.35);
+  color: #ddd;
+  border: 1px solid rgba(110, 85, 140, 0.4);
+}
+
+.pagination .page-link:hover {
+  background: linear-gradient(135deg, #8464bc, #c88ca3);
+  color: #fff;
+}
+
+/* Toggle Button if dark/light mode button exists */
+.toggle-btn {
+  background: rgba(70, 55, 90, 0.4);
+  color: #ddd;
+  border: 1px solid rgba(110, 85, 140, 0.35);
+  border-radius: 16px;
+  padding: 8px 20px;
+}
+
+.toggle-btn:hover {
+  background: rgba(90, 70, 130, 0.55);
+  box-shadow: 0 0 10px rgba(120, 95, 150, 0.5);
+}
+
+/* Glassmorphism effect for modals or overlays if any */
+.modal-content {
+  background: rgba(30, 25, 40, 0.6);
+  border: 1px solid rgba(110, 85, 140, 0.35);
+  backdrop-filter: blur(20px);
+  border-radius: 16px;
+  color: #ddd;
+}
